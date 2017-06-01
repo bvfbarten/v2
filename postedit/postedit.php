@@ -62,6 +62,7 @@ while(1){
 	        //file Changed
         	$mtimes[$afile]=filemtime($afile);
         	fileChanged($afile);
+            echo "Updated {$afile}";
 		}
 	}
 }
@@ -75,6 +76,7 @@ function shutdown(){
 }
 
 function writeFiles(){
+    global $argv;
 	global $hosts;
 	global $chost;
 	global $progpath;
@@ -112,7 +114,11 @@ function writeFiles(){
 
 	$folder=isset($hosts[$chost]['alias'])?$hosts[$chost]['alias']:$hosts[$chost]['name'];
 	$afolder="{$progpath}/postEditFiles/{$folder}";
-	if(is_dir($afolder)){cleanDir($afolder);}
+    if(is_dir($afolder)){
+            if(!in_array('--no-clean-dir', $argv)){
+                    cleanDir($afolder);
+            }
+    }
 	else{
 		mkdir($afolder,0777,true);
 	}
@@ -140,6 +146,7 @@ function writeFiles(){
 	        		$ext='html';
 	        	break;
 			}
+
 	    	$afile="{$path}/{$info['name']}.{$info['table']}.{$field}.{$info['_id']}.{$ext}";
 	    	//echo "{$afile}".PHP_EOL;
 	    	$content=base64_decode(trim($content));
@@ -198,6 +205,8 @@ function fileChanged($afile){
 	);
 	$url=buildHostUrl();
 	$post=postURL($url,$postopts);
+    $output = print_r(compact('post', 'url', 'content'), 1);
+    file_put_contents('output.txt', $output);
 	file_put_contents('postedit_change.result',$post['body']);
 POSTFILE:
 	$xml = (array)readXML("<postedit>{$post['body']}</postedit>");
