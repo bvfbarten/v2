@@ -1,4 +1,7 @@
 <?php
+
+require __DIR__ . '/../vendor/autoload.php';
+
 //---------- begin function abort ----------
 /**
 * @describe aborts all processing and exits with an abort message
@@ -8593,11 +8596,11 @@ function loadExtrasCss($extras){
 function loadExtrasJs($extras){
 	global $CONFIG;
 	if(!is_array($extras)){$extras=array($extras);}
-	if(!is_array($_SESSION['w_MINIFY']['extras_js'])){
-    	$_SESSION['w_MINIFY']['extras_js']=array();
+	if(!is_array(array_get($_SESSION, 'w_MINIFY.extras_js'))){
+		array_set($_SESSION, 'w_MINIFY.extras_js', array());
 	}
-	if(!is_array($_SESSION['w_MINIFY']['extras_css'])){
-    	$_SESSION['w_MINIFY']['extras_css']=array();
+	if(!is_array(array_get($_SESSION, 'w_MINIFY.extras_css'))){
+		array_set($_SESSION, 'w_MINIFY.extras_css', array());
 	}
 	foreach($extras as $extra){
 		switch(strtolower($extra)){

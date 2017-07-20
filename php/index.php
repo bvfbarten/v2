@@ -1,11 +1,4 @@
 <?php
-//Set upload size
-//Set Post Max Size
-ini_set('POST_MAX_SIZE', '34M');
-ini_set('UPLOAD_MAX_FILESIZE', '30M');
-ini_set('max_execution_time', 5000);
-set_time_limit(5500);
-error_reporting(E_ALL & ~E_NOTICE);
 $_SERVER['TIME_START']=microtime(true);
 $progpath=dirname(__FILE__);
 //set the default time zone
@@ -31,8 +24,18 @@ elseif($url_parts[0]=='t'){
 	$_REQUEST['_view']=implode('/',$url_parts);
 	//echo printValue($_REQUEST['_view']);exit;
 }
-global $CONFIG;
+global $CONFIG; 
+$CONFIG = new Illuminate\Support\Collection();
 include_once("$progpath/config.php");
+
+//Set upload size
+//Set Post Max Size
+ini_set('POST_MAX_SIZE', '34M');
+ini_set('UPLOAD_MAX_FILESIZE', '30M');
+ini_set('max_execution_time', 5000);
+set_time_limit(5500);
+error_reporting(E_ALL & ~E_NOTICE);
+
 //change timezone if set
 if(isset($CONFIG['timezone'])){
 	@date_default_timezone_set($CONFIG['timezone']);
