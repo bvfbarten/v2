@@ -1,6 +1,9 @@
 <?php
 //Set upload size
 //Set Post Max Size
+include_once("$progpath/common.php");
+global $CONFIG;
+include_once("$progpath/config.php");
 ini_set('POST_MAX_SIZE', '34M');
 ini_set('UPLOAD_MAX_FILESIZE', '30M');
 ini_set('max_execution_time', 5000);
@@ -11,9 +14,6 @@ $progpath=dirname(__FILE__);
 //set the default time zone
 date_default_timezone_set('America/Denver');
 //includes
-include_once("$progpath/common.php");
-global $CONFIG;
-include_once("$progpath/config.php");
 //change timezone if set
 if(isset($CONFIG['timezone'])){
 	@date_default_timezone_set($CONFIG['timezone']);
@@ -3675,6 +3675,7 @@ function adminMenu(){
 	$rtn .= '<table class="table table-striped table-bordered">'."\n";
 	if(!isset($_SESSION['wasql_info']) || isset($_REQUEST['refresh'])){
 		$_SESSION['wasql_info']=array(
+			'quack'		=> 'yes',
 			'Server Host'	=> $_SERVER['HTTP_HOST'],
 			'waSQL Path'	=> getWasqlPath(),
 			'<span class="icon-user w_grey"></span> Username'	=> $USER['username'],
